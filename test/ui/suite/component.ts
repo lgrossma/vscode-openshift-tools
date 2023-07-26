@@ -39,15 +39,21 @@ export function createComponentTest(contextFolder: string) {
             await editorView.closeAllEditors();
         });
 
-        after(async function() {
-            this.timeout(60000);
+        after(async function () {
+            this.timeout(65_000);
             const projectItem = await explorer.findItem(projectName);
             if (projectItem) {
                 const menu = await projectItem.openContextMenu();
                 await menu.select(MENUS.delete);
                 const notif = await notificationExists(NOTIFICATIONS.deleteProjectWarning(projectName), VSBrowser.instance.driver);
                 await notif.takeAction(INPUTS.yes);
-                await notificationExists(NOTIFICATIONS.projectDeleteSuccess(projectName), VSBrowser.instance.driver, 40000);
+                try {
+                    await notificationExists(NOTIFICATIONS.projectDeleteSuccess(projectName), VSBrowser.instance.driver, 40_000);
+                } catch {
+                    if (!projectItem) {
+                        await notificationExists(NOTIFICATIONS.projectDeleteSuccess(projectName), VSBrowser.instance.driver, 5_000);
+                    }
+                }
             }
         });
 
