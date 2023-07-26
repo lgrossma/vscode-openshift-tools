@@ -40,7 +40,7 @@ export function createComponentTest(contextFolder: string) {
         });
 
         after(async function () {
-            this.timeout(75_000);
+            this.timeout(100_000);
             const projectItem = await explorer.findItem(projectName);
             if (projectItem) {
                 const menu = await projectItem.openContextMenu();
@@ -51,7 +51,7 @@ export function createComponentTest(contextFolder: string) {
                     await notificationExists(NOTIFICATIONS.projectDeleteSuccess(projectName), VSBrowser.instance.driver, 50_000);
                 } catch {
                     if (!projectItem) {
-                        await notificationExists(NOTIFICATIONS.projectDeleteSuccess(projectName), VSBrowser.instance.driver, 5_000);
+                        await notificationExists(NOTIFICATIONS.projectDeleteSuccess(projectName), VSBrowser.instance.driver, 30_000);
                     }
                 }
             }
