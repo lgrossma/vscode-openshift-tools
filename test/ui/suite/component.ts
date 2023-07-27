@@ -43,14 +43,22 @@ export function createComponentTest(contextFolder: string) {
             this.timeout(100_000);
             const projectItem = await explorer.findItem(projectName);
             if (projectItem) {
+                console.log('Project exists');
                 const menu = await projectItem.openContextMenu();
+                console.log('Opening context menu');
                 await menu.select(MENUS.delete);
+                console.log('Deleting project');
                 const notif = await notificationExists(NOTIFICATIONS.deleteProjectWarning(projectName), VSBrowser.instance.driver);
+                console.log('Geetting clickable notif Delete project warning');
                 await notif.takeAction(INPUTS.yes);
+                console.log('Click yes');
                 try {
                     await notificationExists(NOTIFICATIONS.projectDeleteSuccess(projectName), VSBrowser.instance.driver, 50_000);
+                    console.log('Waiting for success delete');
                 } catch {
-                    if (!projectItem) {
+                    console.log('Notification didnt appear');
+                    if (projectItem) {
+                        console.log('project still exists exists');
                         await notificationExists(NOTIFICATIONS.projectDeleteSuccess(projectName), VSBrowser.instance.driver, 30_000);
                     }
                 }
