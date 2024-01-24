@@ -15,36 +15,39 @@ import { testCreateServerlessFunction } from './suite/serverlessFunction';
 
 require('source-map-support').install();
 
-describe('Extension public-facing UI tests', function() {
+describe('Extension public-facing UI tests', async function() {
     const contextFolder = path.join(__dirname, 'context');
     const kubeConfig = path.join(process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'], '.kube', 'config');
     const kubeBackup = `${kubeConfig}.backup`;
 
     // test with an empty kube config, make a backup, wipe the context folder
     before(async function () {
-        if (fs.existsSync(kubeConfig)) {
-            console.log('kubeconfig exists')
-            console.log(fs.readFileSync(kubeConfig));
-            await fs.move(kubeConfig, kubeBackup, { overwrite: true });
-            console.log(fs.readFileSync(kubeBackup));
-        }
-        console.log('check message')
-        console.log(kubeConfig);
-        await fs.emptyDir(contextFolder);
+       await checkConfig(kubeConfig, kubeBackup);
     });
 
-    // restore the kube config backup after test
-    after(async function () {
-        if (fs.existsSync(kubeBackup)) {
-            await fs.move(kubeBackup, kubeConfig, { overwrite: true });
-        }
-    });
-
+    await checkConfig(kubeConfig, kubeBackup);
     checkExtension();
+    await checkConfig(kubeConfig, kubeBackup);
     checkOpenshiftView();
+    await checkConfig(kubeConfig, kubeBackup);
     checkAboutCommand();
+    await checkConfig(kubeConfig, kubeBackup);
     testDevfileRegistries();
+    await checkConfig(kubeConfig, kubeBackup);
     checkFocusOnCommands();
+    await checkConfig(kubeConfig, kubeBackup);
     testCreateComponent(contextFolder);
+    await checkConfig(kubeConfig, kubeBackup);
     testCreateServerlessFunction(contextFolder);
+    await checkConfig(kubeConfig, kubeBackup);
 });
+
+async function checkConfig(kubeConfig, kubeBackup){
+    if (fs.existsSync(kubeConfig)) {
+        console.log('kubeconfig exists')
+        console.log(fs.readFileSync(kubeConfig));
+        await fs.move(kubeConfig, kubeBackup, { overwrite: true });
+    }
+    console.log('check message')
+    console.log(kubeConfig);
+}
