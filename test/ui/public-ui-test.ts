@@ -29,6 +29,7 @@ describe('Extension public-facing UI tests', function() {
             console.log(fs.readFileSync(kubeBackup));
         }
         console.log('check message')
+        console.log(kubeConfig);
         await fs.emptyDir(contextFolder);
     });
 
