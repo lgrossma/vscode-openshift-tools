@@ -28,6 +28,7 @@ describe('Extension public-facing UI tests', function() {
             await fs.move(kubeConfig, kubeBackup, { overwrite: true });
             console.log(fs.readFileSync(kubeBackup));
         }
+        console.log('check message')
         await fs.emptyDir(contextFolder);
     });
 
