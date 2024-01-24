@@ -15,8 +15,9 @@ import { testCreateServerlessFunction } from './suite/serverlessFunction';
 
 require('source-map-support').install();
 
-describe('Extension public-facing UI tests', async function() {
-    const contextFolder = path.join(__dirname, 'context');
+describe('Extension public-facing UI tests', () => {
+    (async () => {
+        const contextFolder = path.join(__dirname, 'context');
     const kubeConfig = path.join(process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'], '.kube', 'config');
     const kubeBackup = `${kubeConfig}.backup`;
 
@@ -40,6 +41,7 @@ describe('Extension public-facing UI tests', async function() {
     await checkConfig(kubeConfig, kubeBackup);
     testCreateServerlessFunction(contextFolder);
     await checkConfig(kubeConfig, kubeBackup);
+    });
 });
 
 async function checkConfig(kubeConfig, kubeBackup){
