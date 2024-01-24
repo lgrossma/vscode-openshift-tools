@@ -23,7 +23,10 @@ describe('Extension public-facing UI tests', function() {
     // test with an empty kube config, make a backup, wipe the context folder
     before(async function () {
         if (fs.existsSync(kubeConfig)) {
+            console.log('kubeconfig exists')
+            console.log(fs.readFileSync(kubeConfig));
             await fs.move(kubeConfig, kubeBackup, { overwrite: true });
+            console.log(fs.readFileSync(kubeBackup));
         }
         await fs.emptyDir(contextFolder);
     });
