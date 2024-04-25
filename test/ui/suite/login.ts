@@ -97,7 +97,9 @@ export function loginTest() {
 
             //select credentials login
             inputBox = await InputBox.create();
-            await inputBox.selectQuickPick(INPUTS.credentialsQuickPick);
+            await inputBox.setText('Credentials');
+            await inputBox.confirm()
+            //await inputBox.selectQuickPick(INPUTS.credentialsQuickPick);
 
             // set credentials
             if (firstLogin) {
