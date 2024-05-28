@@ -8,7 +8,7 @@ import path = require('path');
 import { testCreateComponent } from './suite/createComponent';
 import { testDevfileRegistries } from './suite/devfileRegistries';
 import { checkExtension } from './suite/extension';
-//import { checkFocusOnCommands } from './suite/focusOn';
+import { checkFocusOnCommands } from './suite/focusOn';
 import { checkOpenshiftView } from './suite/openshift';
 //import { testCreateServerlessFunction } from './suite/serverlessFunction';
 import { testAddCluster } from './suite/addCluster';
