@@ -3,10 +3,10 @@
  *  Licensed under the MIT License. See LICENSE file in the project root for license information.
  *-----------------------------------------------------------------------------------------------*/
 
-//import { checkAboutCommand } from './suite/command-about';
+import { checkAboutCommand } from './suite/command-about';
 import path = require('path');
 import { testCreateComponent } from './suite/createComponent';
-//import { testDevfileRegistries } from './suite/devfileRegistries';
+import { testDevfileRegistries } from './suite/devfileRegistries';
 import { checkExtension } from './suite/extension';
 //import { checkFocusOnCommands } from './suite/focusOn';
 import { checkOpenshiftView } from './suite/openshift';
@@ -21,8 +21,8 @@ describe('Extension public-facing UI tests', function() {
     checkExtension();
     checkOpenshiftView();
     testAddCluster();
-    //checkAboutCommand();
-    //testDevfileRegistries();
+    checkAboutCommand();
+    testDevfileRegistries();
     //checkFocusOnCommands();
     testCreateComponent(contextFolder);
     //testCreateServerlessFunction(contextFolder);
