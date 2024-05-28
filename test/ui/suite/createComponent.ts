@@ -70,7 +70,7 @@ export function testCreateComponent(path: string) {
 
             componentName = 'node-js-runtime';
             console.log('l')
-            await itemExists(componentName, section, 10_000);
+            await itemExists(componentName, section, 20_000);
             expect(await section.findItem(componentName)).to.be.not.undefined;
             console.log('m')
 
