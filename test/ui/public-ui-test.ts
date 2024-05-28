@@ -23,7 +23,7 @@ describe('Extension public-facing UI tests', function() {
     testAddCluster();
     checkAboutCommand();
     testDevfileRegistries();
-    //checkFocusOnCommands();
+    checkFocusOnCommands();
     testCreateComponent(contextFolder);
     //testCreateServerlessFunction(contextFolder);
 });
