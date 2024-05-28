@@ -157,16 +157,27 @@ export function testCreateComponent(path: string) {
         });
 
         after(async function context() {
+            console.log('1')
             let prompt = await new Workbench().openCommandPrompt();
+            console.log('2')
             await prompt.setText('>Workspaces: Remove Folder From Workspace...');
+            console.log('3')
             await prompt.confirm();
+            console.log('4')
             await prompt.setText('node-js-runtime');
+            console.log('5')
             await prompt.confirm();
+            console.log('6')
             prompt = await new Workbench().openCommandPrompt();
+            console.log('7')
             await prompt.setText('>Workspaces: Remove Folder From Workspace...');
+            console.log('8')
             await prompt.confirm();
+            console.log('9')
             await prompt.setText('nodejs-starter');
+            console.log('10')
             await prompt.confirm()
+            console.log('11')
         });
 
         async function createComponent(createCompView: CreateComponentWebView): Promise<void> {
