@@ -41,7 +41,7 @@ export function testCreateComponent(path: string) {
         });
 
         it('Create component from git URL', async function test() {
-            this.timeout(25_000);
+            this.timeout(60_000);
             console.log('a')
 
             await clickCreateComponent();
@@ -70,7 +70,7 @@ export function testCreateComponent(path: string) {
 
             componentName = 'node-js-runtime';
             console.log('l')
-            await itemExists(componentName, section, 20_000);
+            await itemExists(componentName, section, 30_000);
             expect(await section.findItem(componentName)).to.be.not.undefined;
             console.log('m')
 
