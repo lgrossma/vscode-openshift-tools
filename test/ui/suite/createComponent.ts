@@ -70,6 +70,9 @@ export function testCreateComponent(path: string) {
 
             componentName = 'node-js-runtime';
             console.log('l')
+            await collapse(section);
+            await section.expand();
+
             await section.getAction('Refresh Components View');
             await itemExists(componentName, section, 30_000);
             expect(await section.findItem(componentName)).to.be.not.undefined;
