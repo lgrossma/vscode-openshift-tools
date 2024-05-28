@@ -168,6 +168,7 @@ export function testCreateComponent(path: string) {
             console.log('5')
             await prompt.confirm();
             console.log('6')
+            await new Promise((res) => {setTimeout(res, 1_000)});
             prompt = await new Workbench().openCommandPrompt();
             console.log('7')
             await prompt.setText('>Workspaces: Remove Folder From Workspace...');
