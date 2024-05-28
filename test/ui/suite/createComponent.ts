@@ -172,6 +172,7 @@ export function testCreateComponent(path: string) {
             console.log('7')
             await prompt.setText('>Workspaces: Remove Folder From Workspace...');
             console.log('8')
+            await new Promise((res) => {setTimeout(res, 1_000)});
             await prompt.confirm();
             console.log('9')
             await prompt.setText('nodejs-starter');
