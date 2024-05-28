@@ -41,23 +41,36 @@ export function testCreateComponent(path: string) {
 
         it('Create component from git URL', async function test() {
             this.timeout(25_000);
+            console.log('a')
 
             await clickCreateComponent();
 
+            console.log('b')
             const createCompView = await initializeEditor();
+            console.log('c')
             await createCompView.createComponentFromGit();
 
+            console.log('d')
             const gitPage = new GitProjectPage();
+            console.log('e')
             await gitPage.initializeEditor();
+            console.log('f')
             await gitPage.insertGitLink('https://github.com/odo-devfiles/nodejs-ex');
+            console.log('g')
             await gitPage.clickNextButton();
+            console.log('h')
             await new Promise((res) => { setTimeout(res, 1_500)});
+            console.log('i')
             await gitPage.clickContinueButton();
+            console.log('j')
 
             await createComponent(createCompView)
+            console.log('k')
 
             componentName = 'node-js-runtime';
+            console.log('l')
             expect(await section.findItem(componentName)).to.be.not.undefined;
+            console.log('m')
 
             dlt = false
         });
