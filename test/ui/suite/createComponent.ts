@@ -11,6 +11,7 @@ import { CreateComponentWebView, GitProjectPage, LocalCodeBasePage, SetNameAndFo
 import { RegistryWebViewDevfileWindow, RegistryWebViewEditor } from '../common/ui/webview/registryWebViewEditor';
 import { afterEach } from 'mocha';
 import { collapse } from '../common/overdrives';
+import { itemExists } from '../common/conditions';
 
 //TODO: Add more checks for different elements
 export function testCreateComponent(path: string) {
@@ -69,6 +70,7 @@ export function testCreateComponent(path: string) {
 
             componentName = 'node-js-runtime';
             console.log('l')
+            await itemExists(componentName, section, 10_000);
             expect(await section.findItem(componentName)).to.be.not.undefined;
             console.log('m')
 
