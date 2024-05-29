@@ -11,7 +11,7 @@ import { CreateComponentWebView, GitProjectPage, LocalCodeBasePage, SetNameAndFo
 import { RegistryWebViewDevfileWindow, RegistryWebViewEditor } from '../common/ui/webview/registryWebViewEditor';
 import { afterEach } from 'mocha';
 import { collapse } from '../common/overdrives';
-import { itemExists } from '../common/conditions';
+import { inputBoxIsDisplayed, itemExists } from '../common/conditions';
 
 //TODO: Add more checks for different elements
 export function testCreateComponent(path: string) {
@@ -158,7 +158,9 @@ export function testCreateComponent(path: string) {
 
         after(async function context() {
             console.log('1')
-            let prompt = await new Workbench().openCommandPrompt();
+            let prompt = await new Workbench().openCommandPrompt() as InputBox;
+            console.log('1b')
+            await inputBoxIsDisplayed(prompt, true);
             console.log('2')
             await prompt.setText('>Workspaces: Remove Folder From Workspace...');
             console.log('3')
@@ -168,12 +170,12 @@ export function testCreateComponent(path: string) {
             console.log('5')
             await prompt.confirm();
             console.log('6')
-            await new Promise((res  => {setTimeout(res, 1_000)}))
-            prompt = await new Workbench().openCommandPrompt();
+            prompt = await new Workbench().openCommandPrompt() as InputBox;
             console.log('7')
+            await inputBoxIsDisplayed(prompt, true);
+            console.log('7b')
             await prompt.setText('>Workspaces: Remove Folder From Workspace...');
             console.log('8')
-            await new Promise((res  => {setTimeout(res, 1_000)}))
             await prompt.confirm();
             console.log('9')
             await prompt.setText('nodejs-starter');
