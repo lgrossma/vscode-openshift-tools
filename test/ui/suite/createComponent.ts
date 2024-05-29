@@ -11,7 +11,7 @@ import { CreateComponentWebView, GitProjectPage, LocalCodeBasePage, SetNameAndFo
 import { RegistryWebViewDevfileWindow, RegistryWebViewEditor } from '../common/ui/webview/registryWebViewEditor';
 import { afterEach } from 'mocha';
 import { collapse } from '../common/overdrives';
-import { inputBoxIsDisplayed, itemExists, waitForInputProgress } from '../common/conditions';
+import { inputBoxIsDisplayed, itemExists } from '../common/conditions';
 
 //TODO: Add more checks for different elements
 export function testCreateComponent(path: string) {
