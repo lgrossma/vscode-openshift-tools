@@ -169,7 +169,7 @@ export function testCreateComponent(path: string) {
             await prompt1.setText('node-js-runtime');
             console.log('5')
             await prompt1.confirm();
-            await waitForInputProgress(prompt1, false);
+            await waitForInputProgress(prompt1, true);
             console.log('6')
             const prompt2 = await new Workbench().openCommandPrompt() as InputBox;
             console.log('7')
