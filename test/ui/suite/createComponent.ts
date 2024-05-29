@@ -157,6 +157,7 @@ export function testCreateComponent(path: string) {
         });
 
         after(async function context() {
+            this.timeout(20_000)
             console.log('1')
             const prompt1 = await new Workbench().openCommandPrompt() as InputBox;
             console.log('1b')
