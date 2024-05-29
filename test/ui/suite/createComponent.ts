@@ -11,7 +11,7 @@ import { CreateComponentWebView, GitProjectPage, LocalCodeBasePage, SetNameAndFo
 import { RegistryWebViewDevfileWindow, RegistryWebViewEditor } from '../common/ui/webview/registryWebViewEditor';
 import { afterEach } from 'mocha';
 import { collapse } from '../common/overdrives';
-import { inputBoxIsDisplayed, itemExists } from '../common/conditions';
+import { inputBoxIsDisplayed, itemExists, waitForInputProgress } from '../common/conditions';
 
 //TODO: Add more checks for different elements
 export function testCreateComponent(path: string) {
@@ -158,29 +158,30 @@ export function testCreateComponent(path: string) {
 
         after(async function context() {
             console.log('1')
-            let prompt = await new Workbench().openCommandPrompt() as InputBox;
+            const prompt1 = await new Workbench().openCommandPrompt() as InputBox;
             console.log('1b')
-            await inputBoxIsDisplayed(prompt, true);
+            await inputBoxIsDisplayed(prompt1, true);
             console.log('2')
-            await prompt.setText('>Workspaces: Remove Folder From Workspace...');
+            await prompt1.setText('>Workspaces: Remove Folder From Workspace...');
             console.log('3')
-            await prompt.confirm();
+            await prompt1.confirm();
             console.log('4')
-            await prompt.setText('node-js-runtime');
+            await prompt1.setText('node-js-runtime');
             console.log('5')
-            await prompt.confirm();
+            await prompt1.confirm();
+            await waitForInputProgress(prompt1, false);
             console.log('6')
-            prompt = await new Workbench().openCommandPrompt() as InputBox;
+            const prompt2 = await new Workbench().openCommandPrompt() as InputBox;
             console.log('7')
-            await inputBoxIsDisplayed(prompt, true);
+            await inputBoxIsDisplayed(prompt2, true);
             console.log('7b')
-            await prompt.setText('>Workspaces: Remove Folder From Workspace...');
+            await prompt2.setText('>Workspaces: Remove Folder From Workspace...');
             console.log('8')
-            await prompt.confirm();
+            await prompt2.confirm();
             console.log('9')
-            await prompt.setText('nodejs-starter');
+            await prompt2.setText('nodejs-starter');
             console.log('10')
-            await prompt.confirm()
+            await prompt2.confirm()
             console.log('11')
         });
 
