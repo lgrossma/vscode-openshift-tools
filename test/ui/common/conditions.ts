@@ -73,8 +73,8 @@ export async function waitForInputProgress(input: InputBox, shouldExist: boolean
 
 export async function inputBoxIsDisplayed(inputBox: InputBox, shouldExist: boolean, timeout = 5_000) {
     return inputBox.getDriver().wait(async () => {
-        const hasProgress = await inputBox.isDisplayed();
-        if (hasProgress === shouldExist) {
+        const isDisplayed = await inputBox.isDisplayed();
+        if (isDisplayed === shouldExist) {
             return true;
         }
     }, timeout);
