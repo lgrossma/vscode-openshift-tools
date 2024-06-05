@@ -138,7 +138,7 @@ export function testCreateComponent(path: string) {
             expect(await section.findItem(componentName)).to.be.not.undefined;
 
         });
-        
+
         //Delete the component using file system
         afterEach(async function context() {
             this.timeout(30_000)
