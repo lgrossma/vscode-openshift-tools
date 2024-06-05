@@ -2,7 +2,7 @@
  *  Copyright (c) Red Hat, Inc. All rights reserved.
  *  Licensed under the MIT License. See LICENSE file in the project root for license information.
  *-----------------------------------------------------------------------------------------------*/
-import { By, Key, WebElement, WebView } from 'vscode-extension-tester';
+import { By, Key, VSBrowser, WebElement, WebView } from 'vscode-extension-tester';
 import { WebViewForm } from './WebViewForm';
 
 //TODO: Add support for create from git page and from local codebase page
@@ -158,9 +158,22 @@ export class GitProjectPage extends Page {
      */
     public async clickContinueButton(): Promise<void> {
         await this.enterWebView(async (webView) => {
-            const button = await this.getContinueButton(webView);
+            const button = await this.continueButtonExists(webView);
             await button.click()
         });
+    }
+
+    private async continueButtonExists(webView: WebView, timeout = 60_000): Promise<WebElement> {
+        return webView.getDriver().wait(async () => {
+            try {
+                const button = await this.getContinueButton(webView);
+                if (button) {
+                    return button;
+                }
+            } catch (err) {
+                return null;
+            }
+        }, timeout);
     }
 
     private async getContinueButton(webView: WebView): Promise<WebElement> {

@@ -60,7 +60,7 @@ export function testCreateComponent(path: string) {
             console.log('g')
             await gitPage.clickNextButton();
             console.log('h')
-            await new Promise((res) => { setTimeout(res, 1_500)});
+            //await new Promise((res) => { setTimeout(res, 1_500)});
             console.log('i')
             await gitPage.clickContinueButton();
             console.log('j')
