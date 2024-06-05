@@ -71,6 +71,15 @@ export async function waitForInputProgress(input: InputBox, shouldExist: boolean
     }, timeout);
 }
 
+export async function inputBoxIsDisplayed(inputBox: InputBox, shouldExist: boolean, timeout = 5_000) {
+    return inputBox.getDriver().wait(async () => {
+        const isDisplayed = await inputBox.isDisplayed();
+        if (isDisplayed === shouldExist) {
+            return true;
+        }
+    }, timeout);
+}
+
 export async function terminalHasText(text: string, timeout = 60000, period = 5000) {
     const terminal = await new BottomBarPanel().openTerminalView();
     await terminal.getDriver().wait(async () => {

@@ -158,9 +158,22 @@ export class GitProjectPage extends Page {
      */
     public async clickContinueButton(): Promise<void> {
         await this.enterWebView(async (webView) => {
-            const button = await this.getContinueButton(webView);
+            const button = await this.continueButtonExists(webView);
             await button.click()
         });
+    }
+
+    private async continueButtonExists(webView: WebView, timeout = 60_000): Promise<WebElement> {
+        return webView.getDriver().wait(async () => {
+            try {
+                const button = await this.getContinueButton(webView);
+                if (button) {
+                    return button;
+                }
+            } catch (err) {
+                return null;
+            }
+        }, timeout);
     }
 
     private async getContinueButton(webView: WebView): Promise<WebElement> {
