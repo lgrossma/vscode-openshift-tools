@@ -139,24 +139,7 @@ export function testCreateComponent(path: string) {
 
         });
 
-        //Delete the component using file system
-        afterEach(async function context() {
-            this.timeout(30_000)
-            if(componentName && dlt) {
-                fs.rmSync(pth.join(path, componentName), {recursive: true, force: true});
-                componentName = undefined;
-                await refreshView();
-                await loadCreateComponentButton();
-            }
-            await new EditorView().closeAllEditors();
-            const notificationCenter = await new Workbench().openNotificationsCenter();
-            const notifications = await notificationCenter.getNotifications(NotificationType.Any);
-            if(notifications.length > 0) {
-                await notificationCenter.close();
-            }
-        });
-
-        after(async function context() {
+        it('Something', async function () {
             this.timeout(20_000)
             console.log('1')
             const prompt1 = await new Workbench().openCommandPrompt() as InputBox;
@@ -184,7 +167,54 @@ export function testCreateComponent(path: string) {
             console.log('10')
             await prompt2.confirm()
             console.log('11')
+        })
+
+        //Delete the component using file system
+        afterEach(async function context() {
+            this.timeout(30_000)
+            if(componentName && dlt) {
+                fs.rmSync(pth.join(path, componentName), {recursive: true, force: true});
+                componentName = undefined;
+                await refreshView();
+                await loadCreateComponentButton();
+            }
+            await new EditorView().closeAllEditors();
+            const notificationCenter = await new Workbench().openNotificationsCenter();
+            const notifications = await notificationCenter.getNotifications(NotificationType.Any);
+            if(notifications.length > 0) {
+                await notificationCenter.close();
+            }
         });
+
+        /*after(async function context() {
+            this.timeout(20_000)
+            console.log('1')
+            const prompt1 = await new Workbench().openCommandPrompt() as InputBox;
+            console.log('1b')
+            await inputBoxIsDisplayed(prompt1, true);
+            console.log('2')
+            await prompt1.setText('>Workspaces: Remove Folder From Workspace...');
+            console.log('3')
+            await prompt1.confirm();
+            console.log('4')
+            await prompt1.setText('node-js-runtime');
+            console.log('5')
+            await prompt1.confirm();
+            //await new Promise((res  => {setTimeout(res, 6_000)}))
+            console.log('6')
+            const prompt2 = await new Workbench().openCommandPrompt() as InputBox;
+            console.log('7')
+            await inputBoxIsDisplayed(prompt2, true);
+            console.log('7b')
+            await prompt2.setText('>Workspaces: Remove Folder From Workspace...');
+            console.log('8')
+            await prompt2.confirm();
+            console.log('9')
+            await prompt2.setText('nodejs-starter');
+            console.log('10')
+            await prompt2.confirm()
+            console.log('11')
+        });*/
 
         async function createComponent(createCompView: CreateComponentWebView): Promise<void> {
             const page = new SetNameAndFolderPage(createCompView.editorName);
