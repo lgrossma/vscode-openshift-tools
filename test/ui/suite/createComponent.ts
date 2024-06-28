@@ -177,11 +177,9 @@ export function testCreateComponent(path: string) {
             console.log('5');
             await prompt.confirm();
             console.log('6');
-            const notificationCenter = await new Workbench().openNotificationsCenter();
-            const notifications = await notificationCenter.getNotifications(NotificationType.Any);
-            if (notifications.length > 0) {
-                await notificationCenter.close();
-            }
+            await new Promise((res) => {
+                setTimeout(res, 1_000);
+            }); 
             prompt = await new Workbench().openCommandPrompt();
             console.log('7');
             await prompt.setText('>Workspaces: Remove Folder From Workspace...');
