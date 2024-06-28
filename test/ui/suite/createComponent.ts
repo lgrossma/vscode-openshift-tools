@@ -178,7 +178,7 @@ export function testCreateComponent(path: string) {
             await prompt.confirm();
             console.log('6');
             await new Promise((res) => {
-                setTimeout(res, 1_500);
+                setTimeout(res, 2_500);
             });
             prompt = await new Workbench().openCommandPrompt();
             console.log('7');
