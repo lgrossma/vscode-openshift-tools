@@ -13,21 +13,28 @@ import { WebViewForm } from './WebViewForm';
  */
 
 export class CreateComponentWebView extends WebViewForm {
-
     public constructor() {
         super('Create Component');
     }
 
     private async getCreateFromTemplateButton(webView: WebView): Promise<WebElement> {
-        return await webView.findWebElement(By.xpath('//div[..//h6[contains(text(),"From Template Project")]]/button'));
+        return await webView.findWebElement(
+            By.xpath('//div[..//h6[contains(text(),"From Template Project")]]/button'),
+        );
     }
 
     private async getCreateFromGitButton(webView: WebView): Promise<WebElement> {
-        return await webView.findWebElement(By.xpath('//div[..//h6[contains(text(),"From Existing Remote Git Repository")]]/button'));
+        return await webView.findWebElement(
+            By.xpath(
+                '//div[..//h6[contains(text(),"From Existing Remote Git Repository")]]/button',
+            ),
+        );
     }
 
     private async getCreateFromLocalButton(webView: WebView): Promise<WebElement> {
-        return await webView.findWebElement(By.xpath('//div[..//h6[contains(text(),"From Existing Local Codebase")]]/button'));
+        return await webView.findWebElement(
+            By.xpath('//div[..//h6[contains(text(),"From Existing Local Codebase")]]/button'),
+        );
     }
 
     public async createComponentFromTemplate(): Promise<void> {
@@ -57,7 +64,6 @@ export class CreateComponentWebView extends WebViewForm {
  * @author Lukas Grossmann <lgrossma@redhat.com>
  */
 export class SetNameAndFolderPage extends WebViewForm {
-
     public constructor(name: string) {
         super(name);
     }
@@ -72,7 +78,7 @@ export class SetNameAndFolderPage extends WebViewForm {
     public async clearProjectFolderPath(): Promise<void> {
         await this.enterWebView(async (webView) => {
             const pathField = await this.getProjectFolderPathField(webView);
-            const controlKey = process.platform === 'darwin' ? Key.COMMAND : Key.CONTROL
+            const controlKey = process.platform === 'darwin' ? Key.COMMAND : Key.CONTROL;
             await pathField.sendKeys(`${controlKey} ${'a'}`);
             await pathField.sendKeys(Key.DELETE);
         });
@@ -82,7 +88,7 @@ export class SetNameAndFolderPage extends WebViewForm {
         await this.enterWebView(async (webView) => {
             const button = await this.getSelectFolderButton(webView);
             await button.click();
-        })
+        });
     }
 
     public async clickCreateComponentButton(): Promise<void> {
@@ -93,28 +99,34 @@ export class SetNameAndFolderPage extends WebViewForm {
     }
 
     private async getSelectFolderButton(webView: WebView): Promise<WebElement> {
-        return await webView.findWebElement(By.xpath('//button[contains(text(), "Select Folder")]'));
+        return await webView.findWebElement(
+            By.xpath('//button[contains(text(), "Select Folder")]'),
+        );
     }
 
     private async getProjectFolderPathField(webView: WebView): Promise<WebElement> {
-        return await webView.findWebElement(By.xpath('//div[./label[contains(text(), "Project Folder Path")]]//input'));
+        return await webView.findWebElement(
+            By.xpath('//div[./label[contains(text(), "Project Folder Path")]]//input'),
+        );
     }
 
     private async getCreateComponentButton(webView: WebView): Promise<WebElement> {
-        return await webView.findWebElement(By.xpath('//span[contains(text(), "Create Component")]'));
+        return await webView.findWebElement(
+            By.xpath('//span[contains(text(), "Create Component")]'),
+        );
     }
 }
 
 abstract class Page extends WebViewForm {
     public constructor() {
-        super('Create Component')
+        super('Create Component');
     }
 
     public async clickNextButton(): Promise<void> {
         await this.enterWebView(async (webView) => {
             const button = await this.getNextButton(webView);
             await button.click();
-        })
+        });
     }
 
     /**
@@ -123,7 +135,7 @@ abstract class Page extends WebViewForm {
     public async clickSelectDifferentDevfileButton(): Promise<void> {
         await this.enterWebView(async (webView) => {
             const button = await this.getSelectDifferentDevfileButton(webView);
-            await button.click()
+            await button.click();
         });
     }
 
@@ -132,7 +144,9 @@ abstract class Page extends WebViewForm {
     }
 
     private async getSelectDifferentDevfileButton(webView: WebView): Promise<WebElement> {
-        return await webView.findWebElement(By.xpath('//button[contains(text(), "SELECT A DIFFERENT DEVFILE")]'));
+        return await webView.findWebElement(
+            By.xpath('//button[contains(text(), "SELECT A DIFFERENT DEVFILE")]'),
+        );
     }
 }
 
@@ -141,7 +155,6 @@ abstract class Page extends WebViewForm {
  * @author Lukas Grossmann <lgrossma@redhat.com>
  */
 export class GitProjectPage extends Page {
-
     public constructor() {
         super();
     }
@@ -149,7 +162,7 @@ export class GitProjectPage extends Page {
     public async insertGitLink(link: string): Promise<void> {
         await this.enterWebView(async (webView) => {
             const linkField = await this.getGitRepositoryLinkField(webView);
-            await linkField.sendKeys(link)
+            await linkField.sendKeys(link);
         });
     }
 
@@ -158,17 +171,34 @@ export class GitProjectPage extends Page {
      */
     public async clickContinueButton(): Promise<void> {
         await this.enterWebView(async (webView) => {
-            const button = await this.getContinueButton(webView);
-            await button.click()
+            const button = await this.continueButtonExists(webView);
+            await button.click();
         });
     }
 
+    private async continueButtonExists(webView: WebView, timeout = 60_000): Promise<WebElement> {
+        return webView.getDriver().wait(async () => {
+            try {
+                const button = await this.getContinueButton(webView);
+                if (button) {
+                    return button;
+                }
+            } catch (err) {
+                return null;
+            }
+        }, timeout);
+    }
+
     private async getContinueButton(webView: WebView): Promise<WebElement> {
-        return await webView.findWebElement(By.xpath('//button[contains(text(), "CONTINUE WITH THIS DEVFILE")]'));
+        return await webView.findWebElement(
+            By.xpath('//button[contains(text(), "CONTINUE WITH THIS DEVFILE")]'),
+        );
     }
 
     private async getGitRepositoryLinkField(webView: WebView): Promise<WebElement> {
-        return await webView.findWebElement(By.xpath('//div[./label[contains(text(), "Link to Git Repository")]]//input'));
+        return await webView.findWebElement(
+            By.xpath('//div[./label[contains(text(), "Link to Git Repository")]]//input'),
+        );
     }
 }
 
@@ -180,33 +210,39 @@ export class LocalCodeBasePage extends Page {
     public async insertComponentName(name: string): Promise<void> {
         await this.enterWebView(async (webView) => {
             const nameField = await this.getComponentNameField(webView);
-            await nameField.sendKeys(name)
+            await nameField.sendKeys(name);
         });
     }
 
     public async clickSelectFolderButton(): Promise<void> {
         await this.enterWebView(async (webView) => {
             const button = await this.getSelectFolderButton(webView);
-            await button.click()
+            await button.click();
         });
     }
 
     public async clickCreateComponent(): Promise<void> {
         await this.enterWebView(async (webView) => {
             const button = await this.getCreateComponentButton(webView);
-            await button.click()
+            await button.click();
         });
     }
 
     private async getComponentNameField(webView: WebView): Promise<WebElement> {
-        return await webView.findWebElement(By.xpath('//div[./label[contains(text(), "Component Name")]]//input'));
+        return await webView.findWebElement(
+            By.xpath('//div[./label[contains(text(), "Component Name")]]//input'),
+        );
     }
 
     private async getSelectFolderButton(webView: WebView): Promise<WebElement> {
-        return await webView.findWebElement(By.xpath('//button[contains(text(), "Select Folder")]'));
+        return await webView.findWebElement(
+            By.xpath('//button[contains(text(), "Select Folder")]'),
+        );
     }
 
     private async getCreateComponentButton(webView: WebView): Promise<WebElement> {
-        return await webView.findWebElement(By.xpath('//span[contains(text(), "Create Component")]'));
+        return await webView.findWebElement(
+            By.xpath('//span[contains(text(), "Create Component")]'),
+        );
     }
 }
