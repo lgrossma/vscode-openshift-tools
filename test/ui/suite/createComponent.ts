@@ -11,7 +11,6 @@ import {
     InputBox,
     NotificationType,
     SideBarView,
-    VSBrowser,
     ViewSection,
     WelcomeContentButton,
     Workbench,
