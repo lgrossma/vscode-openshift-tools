@@ -181,7 +181,8 @@ export function testCreateComponent(path: string) {
             prompt = await new Workbench().openCommandPrompt();
             console.log('7');
             await prompt.setText('>Workspaces: Remove Folder From Workspace...');
-            await VSBrowser.instance.driver.takeScreenshot();
+            const screenshot = await VSBrowser.instance.driver.takeScreenshot();
+            fs.moveSync(screenshot, '/tmp/test-resources/screenshots')
             console.log('8');
             await prompt.confirm();
             console.log('9');
