@@ -178,11 +178,14 @@ export function testCreateComponent(path: string) {
             console.log('5');
             await prompt.confirm();
             console.log('6');
+            const notificationCenter = await new Workbench().openNotificationsCenter();
+            const notifications = await notificationCenter.getNotifications(NotificationType.Any);
+            if (notifications.length > 0) {
+                await notificationCenter.close();
+            }
             prompt = await new Workbench().openCommandPrompt();
             console.log('7');
             await prompt.setText('>Workspaces: Remove Folder From Workspace...');
-            const screenshot = await VSBrowser.instance.driver.takeScreenshot();
-            fs.moveSync(screenshot, '/tmp/test-resources/screenshots')
             console.log('8');
             await prompt.confirm();
             console.log('9');
