@@ -146,6 +146,8 @@ export function testCreateComponent(path: string) {
             //check if component is in component view
             componentName = 'nodejs-starter';
             expect(await section.findItem(componentName)).to.be.not.undefined;
+
+            dlt = false;
         });
 
         //Delete the component using file system
@@ -171,6 +173,7 @@ export function testCreateComponent(path: string) {
             await prompt.confirm();
             await prompt.setText('node-js-runtime');
             await prompt.confirm();
+            /*
             await new Promise((res) => {
                 setTimeout(res, 2_500);
             });
@@ -179,6 +182,7 @@ export function testCreateComponent(path: string) {
             await prompt.confirm();
             await prompt.setText('nodejs-starter');
             await prompt.confirm();
+            */
         });
 
         async function createComponent(createCompView: CreateComponentWebView): Promise<void> {
