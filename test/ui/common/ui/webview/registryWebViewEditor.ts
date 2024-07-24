@@ -63,6 +63,7 @@ export class RegistryWebViewEditor extends WebViewForm {
 
     private async getRegistryStacksItems(webView: WebView): Promise<RegistryStackItem[]> {
         const stacks = await this.getRegistryStacks(webView);
+        console.log(stacks.length);
         const array = [] as RegistryStackItem[];
         for (const item of stacks) {
             const stack = new RegistryStackItem(item);
