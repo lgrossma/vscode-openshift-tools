@@ -56,9 +56,7 @@ export class RegistryWebViewEditor extends WebViewForm {
     }
 
     private async getRegistryStacks(webView: WebView): Promise<WebElement[]> {
-        return await webView.findWebElements(
-            By.xpath('//div[@id="devfileList"]//p[@id="devfileName"]'),
-        );
+        return await webView.findWebElements(By.xpath('//div[@id="devfileList"]//p[@id="devfileName"]'));
     }
 
     private async getRegistryStacksItems(webView: WebView): Promise<RegistryStackItem[]> {
