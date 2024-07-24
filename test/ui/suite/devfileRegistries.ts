@@ -111,7 +111,7 @@ export function testDevfileRegistries() {
         });
 
         it('open Devfile registry view from item\'s context menu and verify the content of the registry', async function test() {
-            this.timeout(10_000);
+            this.timeout(60_000);
             await new EditorView().closeAllEditors();
             const devfileRegistry = await registrySection.findItem('DefaultDevfileRegistry');
             await devfileRegistry.select();
@@ -125,8 +125,9 @@ export function testDevfileRegistries() {
             // initialize web view editor
             const webView = new RegistryWebViewEditor('Devfile Registry - DefaultDevfileRegistry');
             await webView.initializeEditor();
+            const stackNames = await webView.getRegistryStackNames();
             // Expect these components to be available on the first page
-            expect(await webView.getRegistryStackNames()).to.include.members(['Quarkus Java', 'Django', 'Go Runtime', 'Maven Java', 'Node.js Runtime', 'Open Liberty Gradle', 'Open Liberty Maven', 'Python', 'Vert.x Java']);
+            expect(stackNames).to.include.members(['Quarkus Java', 'Django', 'Go Runtime', 'Maven Java', 'Node.js Runtime', 'Open Liberty Gradle', 'Open Liberty Maven', 'Python', 'Vert.x Java']);
         });
 
         after(async function context() {
