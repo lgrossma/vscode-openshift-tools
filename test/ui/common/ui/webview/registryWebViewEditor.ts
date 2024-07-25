@@ -55,25 +55,23 @@ export class RegistryWebViewEditor extends WebViewForm {
         super(name);
     }
 
-    private async getRegistryStacks(webView: WebView): Promise<WebElement> {
-        console.log('test1a')
-        return await webView.findWebElement(By.xpath('//div[@id="devfileList"]//p[@id="devfileName"]'));
+    private async getRegistryStacks(webView: WebView): Promise<WebElement[]> {
+        return await webView.findWebElements(By.xpath('//div[@id="devfileList"]//p[@id="devfileName"]'));
     }
 
     private async getRegistryStacksItems(webView: WebView): Promise<RegistryStackItem[]> {
         const stacks = await this.getRegistryStacks(webView);
+        console.log(stacks.length);
         console.log('test1')
-        const stackText = await stacks.getText();
+        const stackText = await stacks[0].getText();
         console.log('test')
         console.log(stackText);
         const array = [] as RegistryStackItem[];
-        const stackItem = new RegistryStackItem(stacks)
-        array.push(stackItem);
-        console.log(array.length);
-        //for (const item of stacks) {
-        //    const stack = new RegistryStackItem(item);
-        //    array.push(stack);
-        //}
+        for (const item of stacks) {
+            const stack = new RegistryStackItem(item);
+            array.push(stack);
+        }
+        console.log(array.length)
         return array;
     }
 
