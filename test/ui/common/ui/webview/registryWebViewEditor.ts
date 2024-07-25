@@ -56,7 +56,7 @@ export class RegistryWebViewEditor extends WebViewForm {
     }
 
     private async getRegistryStacks(webView: WebView): Promise<WebElement[]> {
-        return await webView.findWebElements(By.xpath('//p[@id="devfileName"]'));
+        return await webView.findWebElements(By.xpath('//p[contains(text(), "Quarkus Java")]'));
     }
 
     private async getRegistryStacksItems(webView: WebView): Promise<RegistryStackItem[]> {
