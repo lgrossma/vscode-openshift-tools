@@ -68,7 +68,7 @@
 		"test:coverage": "npm run build && npm run test:instrument && node ./out/build/install-vscode.js && node ./out/build/run-tests.js unit",
 		"build": "npm run clean && npm run lint && npm run compile && npm run bundle-tools",
 		"cluster-ui-test": "extest setup-and-run out/test/ui/cluster-ui-test.js -o test/ui/settings.json -m test/ui/.mocharc.js -e ./test-resources/extensions -c max -i",
-		"public-ui-test": "extest setup-and-run out/test/ui/public-ui-test.js -o test/ui/settings.json -m test/ui/.mocharc.js -e ./test-resources/extensions -c max -i"
+		"public-ui-test": "extest setup-and-run out/test/ui/public-ui-test.js -o test/ui/settings.json -m test/ui/.mocharc.js -e ./test-resources/extensions -c 1.90.2 -i"
 	},
 	"dependencies": {
 		"@kubernetes/client-node": "^0.21.0",
