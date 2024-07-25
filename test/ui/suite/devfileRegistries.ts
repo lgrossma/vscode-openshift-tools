@@ -119,11 +119,12 @@ export function testDevfileRegistries() {
             await (await menu.getItem('Open in Editor')).select();
             await new Promise((res) => { setTimeout(res, 3_000); });
             // check opened editor tab by title
-            //const editorView = new EditorView();
-            //const editor = await editorView.openEditor('Devfile Registry - DefaultDevfileRegistry');
-            //expect(await editor.getTitle()).to.include('Devfile Registry - DefaultDevfileRegistry');
+            const editorView = new EditorView();
+            const editor = await editorView.openEditor('Devfile Registry - DefaultDevfileRegistry');
+            expect(await editor.getTitle()).to.include('Devfile Registry - DefaultDevfileRegistry');
             // initialize web view editor
             const webView = new RegistryWebViewEditor('Devfile Registry - DefaultDevfileRegistry');
+            await webView.initializeEditor();
             await webView.initializeEditor();
             const stackNames = await webView.getRegistryStackNames();
             // Expect these components to be available on the first page
