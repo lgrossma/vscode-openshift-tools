@@ -61,6 +61,7 @@ export class RegistryWebViewEditor extends WebViewForm {
 
     private async getRegistryStacksItems(webView: WebView): Promise<RegistryStackItem[]> {
         const stacks = await this.getRegistryStacks(webView);
+        console.log('test1')
         const stackText = await stacks.getText();
         console.log('test')
         console.log(stackText);
