@@ -89,15 +89,16 @@ export class RegistryWebViewEditor extends WebViewForm {
     }
 
     public async getRegistryStackNames(): Promise<string[]> {
-        const items = await this.enterWebView(async (webView) => {
-            const array = [] as string[];
-            const stacks = await this.registryStacksItemsExists(webView);
-            for (const stack of stacks) {
-                array.push(await stack.getStackName());
-            }
-            return array;
-        });
-        return items;
+        await this.initializeEditor();
+        const webView = new WebView();
+        await webView.switchToFrame();
+        const array = [] as string[];
+        const stacks = await this.registryStacksItemsExists(webView);
+        for (const stack of stacks) {
+            array.push(await stack.getStackName());
+        }
+        await webView.switchBack();
+        return array;
     }
 
     public async selectRegistryStack(stackName: string): Promise<void> {
