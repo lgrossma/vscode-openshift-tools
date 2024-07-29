@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See LICENSE file in the project root for license information.
  *-----------------------------------------------------------------------------------------------*/
 import { expect } from 'chai';
-import { ActivityBar, CustomTreeSection, EditorView, InputBox, SideBarView, ViewSection, VSBrowser, WebDriver } from 'vscode-extension-tester';
+import { ActivityBar, By, CustomTreeSection, EditorView, InputBox, SideBarView, ViewSection, VSBrowser, WebDriver, WebView } from 'vscode-extension-tester';
 import { notificationExists } from '../common/conditions';
 import { VIEWS } from '../common/constants';
 import { RegistryWebViewEditor } from '../common/ui/webview/registryWebViewEditor';
@@ -122,6 +122,15 @@ export function testDevfileRegistries() {
             const editorView = new EditorView();
             const editor = await editorView.openEditor('Devfile Registry - DefaultDevfileRegistry');
             expect(await editor.getTitle()).to.include('Devfile Registry - DefaultDevfileRegistry');
+            // test opened webview
+            console.log('start test');
+            const webViewTest = new WebView();
+            await webViewTest.switchToFrame();
+            const webElement = await webViewTest.findWebElements(By.xpath('//*[contains(text(), "1")]'));
+            console.log(webElement.length);
+            await webViewTest.switchBack();
+            console.log('end test');
+            // end of test
             // initialize web view editor
             const webView = new RegistryWebViewEditor('Devfile Registry - DefaultDevfileRegistry');
             await webView.initializeEditor();
