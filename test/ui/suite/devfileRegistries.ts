@@ -128,8 +128,11 @@ export function testDevfileRegistries() {
             await webViewTest.switchToFrame();
             const webElement = await webViewTest.findWebElements(By.xpath('//*[contains(text(), "1")]'));
             console.log(webElement.length);
+            let i = 1;
             for (const element of webElement) {
+                console.log(i);
                 console.log(await element.getText())
+                i++;
             }
             await webViewTest.switchBack();
             console.log('end test');
