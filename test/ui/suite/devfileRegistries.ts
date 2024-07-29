@@ -124,7 +124,7 @@ export function testDevfileRegistries() {
             expect(await editor.getTitle()).to.include('Devfile Registry - DefaultDevfileRegistry');
             // test opened webview
             console.log('start test');
-            (await new ActivityBar().getViewControl(VIEWS.openshift)).closeView();
+            await (await new ActivityBar().getViewControl(VIEWS.openshift)).closeView();
             const webViewTest = new WebView();
             await webViewTest.switchToFrame();
             const webElement = await webViewTest.findWebElements(By.xpath('//*[@id="devfileList"]//p[@id="devfileName"]'));
