@@ -131,7 +131,8 @@ export function testDevfileRegistries() {
             let i = 1;
             for (const element of webElement) {
                 console.log(i);
-                console.log(await element.getText())
+                const text = await element.getText();
+                console.log(`here is text: ${text}`);
                 i++;
             }
             await webViewTest.switchBack();
