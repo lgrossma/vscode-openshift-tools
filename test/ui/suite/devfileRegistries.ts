@@ -126,7 +126,7 @@ export function testDevfileRegistries() {
             console.log('start test');
             const webViewTest = new WebView();
             await webViewTest.switchToFrame();
-            const webElement = await webViewTest.findWebElements(By.xpath('//*[contains(text(), "1")]'));
+            const webElement = await webViewTest.findWebElements(By.xpath('//*[@id="devfileList"]//p[@id="devfileName"]'));
             console.log(webElement.length);
             let i = 1;
             for (const element of webElement) {
