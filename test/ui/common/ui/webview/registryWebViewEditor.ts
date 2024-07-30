@@ -51,30 +51,49 @@ export class RegistryWebViewProject {
 }
 
 export class RegistryWebViewEditor extends WebViewForm {
-
     public constructor(name: string) {
         super(name);
     }
 
     private async getRegistryStacks(webView: WebView): Promise<WebElement[]> {
-        return await webView.findWebElements(By.xpath('//div[@id="devfileList"]//p[@id="devfileName"]'));
+        return await webView.findWebElements(By.xpath('//*[@id="devfileList"]//p[@id="devfileName"]'));
     }
 
     private async getRegistryStacksItems(webView: WebView): Promise<RegistryStackItem[]> {
         const stacks = await this.getRegistryStacks(webView);
+        console.log(stacks.length);
+        console.log('test1')
+        //const stackText = await stacks[0].getText();
+        console.log('test')
+        //console.log(stackText);
         const array = [] as RegistryStackItem[];
-        for(const item of stacks) {
+        for (const item of stacks) {
             const stack = new RegistryStackItem(item);
             array.push(stack);
         }
+        console.log(array.length)
         return array;
     }
 
+    private async registryStacksItemsExists(webView: WebView, timeout = 60_000): Promise<RegistryStackItem[]> {
+        return webView.getDriver().wait(async () => {
+            try {
+                const stacks = await this.getRegistryStacksItems(webView);
+                if (stacks.length !== 0) {
+                    return stacks;
+                }
+            } catch (err) {
+                return null;
+            }
+        }, timeout);
+    }
+
     public async getRegistryStackNames(): Promise<string[]> {
+        await this.initializeEditor();
         const items = await this.enterWebView(async (webView) => {
-            const array = [] as string [];
-            const stacks = await this.getRegistryStacksItems(webView);
-            for(const stack of stacks) {
+            const array = [] as string[];
+            const stacks = await this.registryStacksItemsExists(webView);
+            for (const stack of stacks) {
                 array.push(await stack.getStackName());
             }
             return array;
@@ -85,8 +104,8 @@ export class RegistryWebViewEditor extends WebViewForm {
     public async selectRegistryStack(stackName: string): Promise<void> {
         await this.enterWebView(async (webView) => {
             const stacks = await this.getRegistryStacksItems(webView);
-            for(const stack of stacks) {
-                if((await stack.getStackName()).includes(stackName)) {
+            for (const stack of stacks) {
+                if ((await stack.getStackName()).includes(stackName)) {
                     await stack.selectStack();
                 }
             }
@@ -98,7 +117,7 @@ export class RegistryWebViewDevfileWindow extends WebViewForm {
     //TODO: Add more functionality to class to cover all elements
 
     public constructor(name: string) {
-        super(name)
+        super(name);
     }
 
     public async clickListBox(): Promise<void> {
@@ -106,9 +125,11 @@ export class RegistryWebViewDevfileWindow extends WebViewForm {
     }
 
     public async getListBox(): Promise<WebElement> {
-        const listBox = this.enterWebView( async (webView) => {
-            return await webView.findWebElement(By.xpath('//svg[@data-testid="ArrowDropDownIcon"]'));
-        })
+        const listBox = this.enterWebView(async (webView) => {
+            return await webView.findWebElement(
+                By.xpath('//svg[@data-testid="ArrowDropDownIcon"]'),
+            );
+        });
         return listBox;
     }
 

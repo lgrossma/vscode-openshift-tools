@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See LICENSE file in the project root for license information.
  *-----------------------------------------------------------------------------------------------*/
 
-import { By, EditorView, Key, WebElement, WebviewView, Workbench } from 'vscode-extension-tester';
+import { BottomBarPanel, By, EditorView, Key, WebElement, WebviewView, Workbench } from 'vscode-extension-tester';
 import { activateCommand } from '../common/command-activator';
 import { expect } from 'chai';
 
@@ -19,6 +19,11 @@ export function checkAboutCommand() {
             await new EditorView().closeAllEditors();
             await activateCommand(command);
         })
+
+        after(async () => {
+            const bottomBarPanel = new BottomBarPanel();
+            await bottomBarPanel.toggle(false);
+        });
 
         it('New terminal opens', async function() {
             this.timeout(60_000);

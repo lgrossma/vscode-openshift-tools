@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See LICENSE file in the project root for license information.
  *-----------------------------------------------------------------------------------------------*/
 import { expect } from 'chai';
-import { ActivityBar, CustomTreeSection, EditorView, InputBox, SideBarView, ViewSection, VSBrowser, WebDriver } from 'vscode-extension-tester';
+import { ActivityBar, By, CustomTreeSection, EditorView, InputBox, SideBarView, ViewSection, VSBrowser, WebDriver, WebView } from 'vscode-extension-tester';
 import { notificationExists } from '../common/conditions';
 import { VIEWS } from '../common/constants';
 import { RegistryWebViewEditor } from '../common/ui/webview/registryWebViewEditor';
@@ -111,7 +111,7 @@ export function testDevfileRegistries() {
         });
 
         it('open Devfile registry view from item\'s context menu and verify the content of the registry', async function test() {
-            this.timeout(10_000);
+            this.timeout(60_000);
             await new EditorView().closeAllEditors();
             const devfileRegistry = await registrySection.findItem('DefaultDevfileRegistry');
             await devfileRegistry.select();
@@ -122,11 +122,30 @@ export function testDevfileRegistries() {
             const editorView = new EditorView();
             const editor = await editorView.openEditor('Devfile Registry - DefaultDevfileRegistry');
             expect(await editor.getTitle()).to.include('Devfile Registry - DefaultDevfileRegistry');
+            // test opened webview
+            console.log('start test');
+            await (await new ActivityBar().getViewControl(VIEWS.openshift)).closeView();
+            const webViewTest = new WebView();
+            await webViewTest.switchToFrame();
+            await webViewTest.getText();
+            const webElement = await webViewTest.findWebElements(By.xpath('//*[contains(text(),"1")]'));
+            console.log(webElement.length);
+            let i = 1;
+            for (const element of webElement) {
+                console.log(i);
+                const text = await element.getAttribute('textContent');
+                console.log(`here is text: ${text}`);
+                i++;
+            }
+            await webViewTest.switchBack();
+            console.log('end test');
+            // end of test
             // initialize web view editor
             const webView = new RegistryWebViewEditor('Devfile Registry - DefaultDevfileRegistry');
             await webView.initializeEditor();
+            const stackNames = await webView.getRegistryStackNames();
             // Expect these components to be available on the first page
-            expect(await webView.getRegistryStackNames()).to.include.members(['Quarkus Java', 'Django', 'Go Runtime', 'Maven Java', 'Node.js Runtime', 'Open Liberty Gradle', 'Open Liberty Maven', 'Python', 'Vert.x Java']);
+            expect(stackNames).to.include.members(['Quarkus Java', 'Django', 'Go Runtime', 'Maven Java', 'Node.js Runtime', 'Open Liberty Gradle', 'Open Liberty Maven', 'Python', 'Vert.x Java']);
         });
 
         after(async function context() {
