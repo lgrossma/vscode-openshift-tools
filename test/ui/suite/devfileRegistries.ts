@@ -126,8 +126,9 @@ export function testDevfileRegistries() {
             console.log('start test');
             await (await new ActivityBar().getViewControl(VIEWS.openshift)).closeView();
             const webViewTest = new WebView();
-            //await webViewTest.switchToFrame();
-            const webElement = await webViewTest.findWebElements(By.xpath('//*[@id="devfileName"]'));
+            await webViewTest.switchToFrame();
+            await webViewTest.getAttribute('textContent');
+            const webElement = await webViewTest.findWebElements(By.xpath('//*[contains(text(),"1")]'));
             console.log(webElement.length);
             let i = 1;
             for (const element of webElement) {
@@ -136,7 +137,7 @@ export function testDevfileRegistries() {
                 console.log(`here is text: ${text}`);
                 i++;
             }
-            //await webViewTest.switchBack();
+            await webViewTest.switchBack();
             console.log('end test');
             // end of test
             // initialize web view editor
