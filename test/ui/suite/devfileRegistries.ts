@@ -132,7 +132,7 @@ export function testDevfileRegistries() {
             let i = 1;
             for (const element of webElement) {
                 console.log(i);
-                const text = await element.getAttribute("textContent");
+                const text = await element.getAttribute('textContent');
                 console.log(`here is text: ${text}`);
                 i++;
             }
