@@ -126,7 +126,7 @@ export function testDevfileRegistries() {
             console.log('start test');
             await (await new ActivityBar().getViewControl(VIEWS.openshift)).closeView();
             const webViewTest = new WebView();
-            await webViewTest.switchToFrame();
+            //await webViewTest.switchToFrame();
             const webElement = await webViewTest.findWebElements(By.xpath('//*[@id="devfileName"]'));
             console.log(webElement.length);
             let i = 1;
