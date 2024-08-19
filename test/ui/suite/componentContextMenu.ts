@@ -113,6 +113,19 @@ export function testComponentContextMenu() {
             const terminalText = await openshiftTerminal.getTerminalText();
             expect(terminalText).to.include('Finished executing the application');
             expect(terminalText).to.include('Press any key to close this terminal');
-        })
+        });
+
+        it('Start Dev on Podman', async () => {
+            this.timeout(80_000)
+            //start dev
+            const contextMenu = await component.openContextMenu();
+            await contextMenu.select(MENUS.startDevPodman);
+
+            await itemExists(`${componentName} (dev starting on podman)`, section);
+            await itemExists(`${componentName} (dev running on podman)`, section, 30_000);
+
+            const terminalText = await openshiftTerminal.getTerminalText();
+            expect(terminalText).to.contain(`Platform: podman`);
+        });
     });
 }

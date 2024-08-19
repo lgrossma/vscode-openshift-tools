@@ -43,6 +43,7 @@ export const MENUS = {
     deleteProject: 'Delete Project',
     bindService: 'Bind Service',
     startDev: 'Start Dev',
+    startDevPodman: 'Start Dev on Podman',
     stopDev: 'Stop Dev',
 };
 
