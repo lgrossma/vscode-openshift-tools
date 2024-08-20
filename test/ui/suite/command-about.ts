@@ -3,10 +3,11 @@
  *  Licensed under the MIT License. See LICENSE file in the project root for license information.
  *-----------------------------------------------------------------------------------------------*/
 
-import { By, EditorView, WebviewView, Workbench } from 'vscode-extension-tester';
+import { ActivityBar, BottomBarPanel, By, EditorView, WebviewView, Workbench } from 'vscode-extension-tester';
 import { activateCommand } from '../common/command-activator';
 import { expect } from 'chai';
 import { OpenshiftTerminalWebviewView } from '../common/ui/webviewView/openshiftTerminalWebviewView';
+import { VIEWS } from '../common/constants';
 
 export function checkAboutCommand(clusterIsSet: boolean) {
     describe('About Command', () => {
@@ -25,6 +26,8 @@ export function checkAboutCommand(clusterIsSet: boolean) {
 
         after(async () => {
             await openshiftTerminal.closeTab('Show odo Version');
+            await new BottomBarPanel().toggle(false);
+            await (await new ActivityBar().getViewControl(VIEWS.openshift)).closeView();
         });
 
         it('New terminal opens', async function() {
