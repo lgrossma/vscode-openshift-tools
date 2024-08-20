@@ -31,11 +31,11 @@ describe('Extension public-facing UI tests', function() {
         checkExtension();
         checkOpenshiftView();
         testAddCluster();
+        checkAboutCommand(clusterIsSet);
         testDevfileRegistries();
         checkFocusOnCommands();
         testCreateComponent(contextFolder);
         testCreateServerlessFunction(contextFolder);
-        checkAboutCommand(clusterIsSet);
     });
 
     describe('Extension public-facing UI tests with Kind cluster', function() {
