@@ -41,17 +41,28 @@ export function projectTest(isOpenshiftCluster: boolean) {
 
         it('Create a new project', async function () {
             this.timeout(30_000);
+            console.log('1')
             await explorer.expand();
+            console.log('2')
             const clusterItem = await explorer.findItem(clusterName) as TreeItem;
+            console.log('3')
             await clusterItem.expand();
+            console.log('4')
             const contextMenu = await clusterItem.openContextMenu();
+            console.log('5')
             await contextMenu.select(newProject);
+            console.log('6')
 
+            await new Promise((res) => { setTimeout(res, 500) });
 
-            const input = await InputBox.create();
             projectName = getProjectName();
+            console.log('7')
+            const input = await InputBox.create();
+            console.log('8')
             await input.setText(projectName);
+            console.log('9')
             await input.confirm();
+            console.log('10')
 
             await itemExists(projectName, explorer);
         });
