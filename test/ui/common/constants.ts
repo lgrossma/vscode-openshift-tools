@@ -70,6 +70,7 @@ export const NOTIFICATIONS = {
     deleteNamespaceWarning: (namespaceName: string) =>
         `Do you want to delete Namespace '${namespaceName}'?`,
     projectDeleteSuccess: (projectName: string) => `Project '${projectName}' successfully deleted`,
+    namespaceDeleteSuccess: (projectName: string) => `Namespace '${projectName}' successfully deleted`,
     savePasswordPrompt: 'Do you want to save username and password?',
     loginSuccess: (cluster: string) => `Successfully logged in to '${cluster}'`,
     doYouWantLogOut: 'Do you want to logout of cluster?',

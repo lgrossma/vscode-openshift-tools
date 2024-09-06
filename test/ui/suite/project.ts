@@ -121,7 +121,11 @@ export function projectTest(isOpenshiftCluster: boolean) {
             await notif.takeAction(INPUTS.yes);
             console.log('9')
 
-            await notificationExists(NOTIFICATIONS.projectDeleteSuccess(projectName), VSBrowser.instance.driver);
+            if (isOpenshiftCluster) {
+                await notificationExists(NOTIFICATIONS.projectDeleteSuccess(projectName), VSBrowser.instance.driver);
+            } else {
+                await notificationExists(NOTIFICATIONS.namespaceDeleteSuccess(projectName), VSBrowser.instance.driver);
+            }
         });
 
 
