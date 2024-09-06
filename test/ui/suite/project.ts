@@ -105,15 +105,6 @@ export function projectTest(isOpenshiftCluster: boolean) {
             console.log('3')
 
             await contextMenu.select(deleteProject);
-            console.log('4')
-
-            const input = await InputBox.create();
-            console.log('5')
-            await new Promise((res) => {setTimeout(res, 1_000)});
-            await input.setText(projectName);
-            console.log('6')
-            await input.confirm();
-            console.log('7')
 
             const notif = await notificationExists(NOTIFICATIONS.deleteProjectWarning(projectName), VSBrowser.instance.driver);
             console.log('8')
