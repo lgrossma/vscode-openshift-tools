@@ -28,6 +28,9 @@ export function projectTest(isOpenshiftCluster: boolean) {
         before(async function () {
             view = await (await new ActivityBar().getViewControl(VIEWS.openshift)).openView();
             explorer = await view.getContent().getSection(VIEWS.appExplorer);
+            await explorer.expand();
+            const actions = await explorer.getActions();
+            await actions[3].click();
         });
 
         beforeEach(async function () {
@@ -41,9 +44,9 @@ export function projectTest(isOpenshiftCluster: boolean) {
 
         it('Create a new project', async function () {
             this.timeout(30_000);
-            console.log('1')
-            await explorer.expand();
             console.log('2')
+            console.log(cluster)
+            console.log(clusterName)
             const clusterItem = await explorer.findItem(clusterName) as TreeItem;
             console.log('3')
             await clusterItem.expand();
