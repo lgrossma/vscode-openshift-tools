@@ -67,6 +67,8 @@ export const COMPONENTS = {
 export const NOTIFICATIONS = {
     deleteProjectWarning: (projectName: string) =>
         `Do you want to delete Project '${projectName}'?`,
+    deleteNamespaceWarning: (projectName: string) =>
+        `Do you want to delete Namespace '${projectName}'?`,
     projectDeleteSuccess: (projectName: string) => `Project '${projectName}' successfully deleted`,
     savePasswordPrompt: 'Do you want to save username and password?',
     loginSuccess: (cluster: string) => `Successfully logged in to '${cluster}'`,

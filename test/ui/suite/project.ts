@@ -107,7 +107,9 @@ export function projectTest(isOpenshiftCluster: boolean) {
             await contextMenu.select(deleteProject);
             console.log('4')
 
-            const notif = await notificationExists(NOTIFICATIONS.deleteProjectWarning(projectName), VSBrowser.instance.driver);
+            const notif = isOpenshiftCluster
+                ? await notificationExists(NOTIFICATIONS.deleteProjectWarning(projectName), VSBrowser.instance.driver)
+                : await notificationExists(NOTIFICATIONS.deleteNamespaceWarning(projectName), VSBrowser.instance.driver);
             console.log('8')
 
             await notif.takeAction(INPUTS.yes);
