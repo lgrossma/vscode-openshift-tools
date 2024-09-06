@@ -6,7 +6,6 @@
 import { SideBarView, ViewSection, EditorView, InputBox, ActivityBar, NotificationType, Workbench, TreeItem, VSBrowser } from 'vscode-extension-tester';
 import { itemExists, notificationExists } from '../common/conditions';
 import { INPUTS, MENUS, NOTIFICATIONS, VIEWS } from '../common/constants';
-import { activateCommand } from '../common/command-activator';
 //import { expect } from 'chai';
 
 export function projectTest(isOpenshiftCluster: boolean) {
@@ -99,22 +98,28 @@ export function projectTest(isOpenshiftCluster: boolean) {
 
         it('Delete a project', async function () {
             this.timeout(30_000);
+            console.log('1')
             const projectItem = await explorer.findItem(projectName);
+            console.log('2')
             const contextMenu = await projectItem.openContextMenu();
+            console.log('3')
 
             await contextMenu.select(deleteProject);
+            console.log('4')
 
-
-
-            await activateCommand('>OpenShift: Delete Project');
             const input = await InputBox.create();
+            console.log('5')
             await new Promise((res) => {setTimeout(res, 1_000)});
             await input.setText(projectName);
+            console.log('6')
             await input.confirm();
+            console.log('7')
 
             const notif = await notificationExists(NOTIFICATIONS.deleteProjectWarning(projectName), VSBrowser.instance.driver);
+            console.log('8')
 
             await notif.takeAction(INPUTS.yes);
+            console.log('9')
 
             await notificationExists(NOTIFICATIONS.projectDeleteSuccess(projectName), VSBrowser.instance.driver);
         });
