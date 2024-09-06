@@ -61,6 +61,7 @@ export function kubernetesContextTest(isOpenshiftCluster: boolean) {
             for(let i = 0; i < quickPicks.length; i++) {
                 allQuickPicksTexts[i] = await quickPicks[i].getText();
             }
+            console.log(allQuickPicksTexts.length)
             const quickPickText = allQuickPicksTexts[0];
             const projectName = quickPickText.split('on')[0];
 
