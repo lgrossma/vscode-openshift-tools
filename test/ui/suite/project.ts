@@ -31,6 +31,7 @@ export function projectTest(isOpenshiftCluster: boolean) {
             await explorer.expand();
             const actions = await explorer.getActions();
             await actions[3].click();
+            await itemExists(clusterName, explorer);
         });
 
         beforeEach(async function () {
