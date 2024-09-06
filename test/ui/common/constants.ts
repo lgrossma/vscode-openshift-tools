@@ -41,8 +41,10 @@ export const INPUTS = {
 
 export const MENUS = {
     newProject: 'New Project',
+    newNamespace: 'New Namespace',
     delete: 'Delete',
     deleteProject: 'Delete Project',
+    deleteNamespace: 'Delete Namespace',
     bindService: 'Bind Service',
     startDev: 'Start Dev',
     startDevPodman: 'Start Dev on Podman',

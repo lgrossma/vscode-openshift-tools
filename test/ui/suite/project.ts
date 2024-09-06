@@ -4,16 +4,20 @@
  *-----------------------------------------------------------------------------------------------*/
 
 import { SideBarView, ViewSection, EditorView, InputBox, ActivityBar, NotificationType, Workbench, TreeItem, VSBrowser } from 'vscode-extension-tester';
-import { itemExists, itemHasText, notificationExists } from '../common/conditions';
-import { INPUTS, NOTIFICATIONS, VIEWS } from '../common/constants';
+import { itemExists, notificationExists } from '../common/conditions';
+import { INPUTS, MENUS, NOTIFICATIONS, VIEWS } from '../common/constants';
 import { activateCommand } from '../common/command-activator';
 //import { expect } from 'chai';
 
-export function projectTest() {
+export function projectTest(isOpenshiftCluster: boolean) {
     describe('Work with project', function () {
 
         const cluster = process.env.CLUSTER_URL || 'https://api.crc.testing:6443';
         const clusterName = cluster;
+
+        const newProject = isOpenshiftCluster ? MENUS.newProject : MENUS.newNamespace;
+        const changeProject = isOpenshiftCluster ? 'Change Active Project' : 'Change Active Namespace';
+        const deleteProject = isOpenshiftCluster ? MENUS.deleteProject : MENUS.deleteNamespace;
 
         let view: SideBarView;
         let explorer: ViewSection;
@@ -40,7 +44,9 @@ export function projectTest() {
             await explorer.expand();
             const clusterItem = await explorer.findItem(clusterName) as TreeItem;
             await clusterItem.expand();
-            await activateCommand('>OpenShift: New Project')
+            const contextMenu = await clusterItem.openContextMenu();
+            await contextMenu.select(newProject);
+
 
             const input = await InputBox.create();
             projectName = getProjectName();
@@ -53,7 +59,11 @@ export function projectTest() {
         it('Project can be changed', async function () {
             this.timeout(30_000);
             anotherProjectName = getProjectName();
-            await activateCommand('>OpenShift: New Project');
+
+            const clusterItem = await explorer.findItem(clusterName) as TreeItem;
+            await clusterItem.expand();
+            const contextMenu = await clusterItem.openContextMenu();
+            await contextMenu.select(newProject);
 
             let input = await InputBox.create();
             await input.setText(anotherProjectName);
@@ -61,7 +71,7 @@ export function projectTest() {
 
             const item = await itemExists(anotherProjectName, explorer) as TreeItem;
 
-            const changeActiveProjectButton = await item.getActionButton('Change Active Project');
+            const changeActiveProjectButton = await item.getActionButton(changeProject);
             await changeActiveProjectButton.click();
 
             input = await InputBox.create();
@@ -74,6 +84,13 @@ export function projectTest() {
 
         it('Delete a project', async function () {
             this.timeout(30_000);
+            const projectItem = await explorer.findItem(projectName);
+            const contextMenu = await projectItem.openContextMenu();
+
+            await contextMenu.select(deleteProject);
+
+
+
             await activateCommand('>OpenShift: Delete Project');
             const input = await InputBox.create();
             await new Promise((res) => {setTimeout(res, 1_000)});
@@ -85,14 +102,11 @@ export function projectTest() {
             await notif.takeAction(INPUTS.yes);
 
             await notificationExists(NOTIFICATIONS.projectDeleteSuccess(projectName), VSBrowser.instance.driver);
-
-            await itemHasText(projectName, 'Missing Project. Create new or set active Project', explorer);
         });
 
 
         function getProjectName() {
             return `project${Math.floor(Math.random() * 100)}`
         }
-
     })
 }

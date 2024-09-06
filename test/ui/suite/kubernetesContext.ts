@@ -10,7 +10,7 @@ import { itemExists, notificationExists } from '../common/conditions';
 import { ACTIONS, INPUTS, NOTIFICATIONS, VIEWS } from '../common/constants';
 import { collapse } from '../common/overdrives';
 
-export function kubernetesContextTest() {
+export function kubernetesContextTest(isOpenshiftCluster: boolean) {
     describe('Kubernetes Context', function () {
 
         const cluster = process.env.CLUSTER_URL || 'https://api.crc.testing:6443';
@@ -66,10 +66,12 @@ export function kubernetesContextTest() {
 
             await inputBox.selectQuickPick(projectName);
 
-            inputBox = await InputBox.create();
-            await inputBox.selectQuickPick(INPUTS.credentialsQuickPick);
-            await inputBox.selectQuickPick('developer');
-            await inputBox.confirm();
+            if (isOpenshiftCluster) {
+                inputBox = await InputBox.create();
+                await inputBox.selectQuickPick(INPUTS.credentialsQuickPick);
+                await inputBox.selectQuickPick('developer');
+                await inputBox.confirm();
+            }
 
             const clusterNode = await itemExists(clusterName, explorer) as TreeItem;
             await clusterNode.expand();
