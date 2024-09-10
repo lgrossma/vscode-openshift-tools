@@ -10,7 +10,7 @@ import { itemExists, notificationExists } from '../common/conditions';
 import { ACTIONS, INPUTS, NOTIFICATIONS, VIEWS } from '../common/constants';
 import { collapse } from '../common/overdrives';
 
-export function kubernetesContextTest(isOpenshiftCluster: boolean) {
+export function kubernetesContextTest() {
     describe('Kubernetes Context', function () {
 
         const cluster = process.env.CLUSTER_URL || 'https://api.crc.testing:6443';
