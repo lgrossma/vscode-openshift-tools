@@ -61,18 +61,15 @@ export function kubernetesContextTest() {
             for(let i = 0; i < quickPicks.length; i++) {
                 allQuickPicksTexts[i] = await quickPicks[i].getText();
             }
-            console.log(allQuickPicksTexts.length)
             const quickPickText = allQuickPicksTexts[0];
             const projectName = quickPickText.split('on')[0];
 
             await inputBox.selectQuickPick(projectName);
 
-            if (isOpenshiftCluster) {
-                inputBox = await InputBox.create();
-                await inputBox.selectQuickPick(INPUTS.credentialsQuickPick);
-                await inputBox.selectQuickPick('developer');
-                await inputBox.confirm();
-            }
+            inputBox = await InputBox.create();
+            await inputBox.selectQuickPick(INPUTS.credentialsQuickPick);
+            await inputBox.selectQuickPick('developer');
+            await inputBox.confirm();
 
             const clusterNode = await itemExists(clusterName, explorer) as TreeItem;
             await clusterNode.expand();
