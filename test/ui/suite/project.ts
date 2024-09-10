@@ -44,28 +44,17 @@ export function projectTest(isOpenshiftCluster: boolean) {
 
         it('Create a new project', async function () {
             this.timeout(30_000);
-            console.log('2')
-            console.log(cluster)
-            console.log(clusterName)
             const clusterItem = await explorer.findItem(clusterName) as TreeItem;
-            console.log('3')
             await clusterItem.expand();
-            console.log('4')
             const contextMenu = await clusterItem.openContextMenu();
-            console.log('5')
             await contextMenu.select(newProject);
-            console.log('6')
 
             await new Promise((res) => { setTimeout(res, 500) });
 
             projectName = getProjectName();
-            console.log('7')
             const input = await InputBox.create();
-            console.log('8')
             await input.setText(projectName);
-            console.log('9')
             await input.confirm();
-            console.log('10')
 
             await itemExists(projectName, explorer);
         });
@@ -98,28 +87,20 @@ export function projectTest(isOpenshiftCluster: boolean) {
 
         it('Delete a project', async function () {
             this.timeout(30_000);
-            console.log('1')
             const projectItem = await explorer.findItem(projectName);
-            console.log('2')
             const contextMenu = await projectItem.openContextMenu();
-            console.log('3')
 
             await contextMenu.select(deleteProject);
-            console.log('4')
 
             let notif;
 
             if (isOpenshiftCluster) {
-                console.log('openshift')
                 notif = await notificationExists(NOTIFICATIONS.deleteProjectWarning(projectName), VSBrowser.instance.driver)
             } else {
-                console.log('kind')
                 notif = await notificationExists(NOTIFICATIONS.deleteNamespaceWarning(projectName), VSBrowser.instance.driver);
             }
-            console.log('8')
 
             await notif.takeAction(INPUTS.yes);
-            console.log('9')
 
             if (isOpenshiftCluster) {
                 await notificationExists(NOTIFICATIONS.projectDeleteSuccess(projectName), VSBrowser.instance.driver);
