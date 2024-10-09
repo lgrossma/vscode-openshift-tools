@@ -136,31 +136,45 @@ export function testCreateComponent(path: string) {
             this.timeout(25_000);
 
             //Click on create component
+            console.log('1')
             await clickCreateComponent();
+            console.log('2')
 
             //Initialize create component editor and select create from template
             const createCompView = await initializeEditor();
+            console.log('3')
             await createCompView.createComponentFromTemplate();
+            console.log('4')
 
             //Initialize devfile editor and select stack
             const devfileView = new RegistryWebViewEditor(createCompView.editorName);
+            console.log('5')
             await devfileView.initializeEditor();
+            console.log('6')
             await devfileView.selectRegistryStack('Node.js Runtime');
+            console.log('7')
             await new Promise((res) => {
                 setTimeout(res, 1_000);
             });
+            console.log('8')
 
             //Initialize stack window and click Use Devfile
             const devFileWindow = new RegistryWebViewDevfileWindow(createCompView.editorName);
+            console.log('9')
             await devFileWindow.initializeEditor();
+            console.log('10')
             await devFileWindow.useDevfile();
+            console.log('11')
 
             //Initialize next page, fill out path and select create component
             await createComponent(createCompView);
+            console.log('12')
 
             //check if component is in component view
             componentName = 'nodejs-starter';
+            console.log('13')
             expect(await section.findItem(componentName)).to.be.not.undefined;
+            console.log('14')
 
             dlt = false;
         });
