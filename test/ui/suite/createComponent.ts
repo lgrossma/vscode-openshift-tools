@@ -182,6 +182,10 @@ export function testCreateComponent(path: string) {
 
                 //Initialize next page, fill out path and select create component
                 await createComponent(createCompView);
+                componentName = 'nodejs-starter';
+                expect(await section.findItem(componentName)).to.be.not.undefined;
+
+                dlt = false;
             }
 
             //Initialize next page, fill out path and select create component
