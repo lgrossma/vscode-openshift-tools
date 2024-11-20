@@ -156,7 +156,39 @@ export function testCreateComponent(path: string) {
             //Initialize stack window and click Use Devfile
             const devFileWindow = new RegistryWebViewDevfileWindow(createCompView.editorName);
             await devFileWindow.initializeEditor();
-            await devFileWindow.useDevfile();
+
+            //Workaround for webview disappearing
+            try {
+                await devFileWindow.useDevfile();
+            } catch {
+                console.log('Exception thrown');
+                await loadCreateComponentButton();
+                await clickCreateComponent();
+
+                //Initialize create component editor and select create from template
+                const createCompView = await initializeEditor();
+                await createCompView.createComponentFromTemplate();
+
+                //Initialize devfile editor and select stack
+                const devfileView = new RegistryWebViewEditor(createCompView.editorName);
+                await devfileView.initializeEditor();
+                await devfileView.selectRegistryStack('Node.js Runtime');
+                await new Promise((res) => {
+                    setTimeout(res, 1_500);
+                });
+
+                //Initialize stack window and click Use Devfile
+                const devFileWindow = new RegistryWebViewDevfileWindow(createCompView.editorName);
+                await devFileWindow.initializeEditor();
+                await devFileWindow.useDevfile();
+
+                //Initialize next page, fill out path and select create component
+                await createComponent(createCompView);
+                componentName = 'nodejs-starter';
+                expect(await section.findItem(componentName)).to.be.not.undefined;
+
+                dlt = false;
+            }
 
             //Initialize next page, fill out path and select create component
             await createComponent(createCompView);
