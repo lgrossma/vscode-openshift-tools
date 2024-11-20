@@ -160,7 +160,7 @@ export function testCreateComponent(path: string) {
             //Workaround for webview disappearing
             try {
                 await devFileWindow.useDevfile();
-            } catch (err) {
+            } catch {
                 await clickCreateComponent();
 
                 //Initialize create component editor and select create from template
