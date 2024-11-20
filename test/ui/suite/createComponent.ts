@@ -161,6 +161,7 @@ export function testCreateComponent(path: string) {
             try {
                 await devFileWindow.useDevfile();
             } catch {
+                console.log('Exception thrown');
                 await clickCreateComponent();
 
                 //Initialize create component editor and select create from template
